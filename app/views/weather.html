@@ -1,0 +1,23 @@
+<div ng-controller="WeatherCtrl">
+    <form ng-submit="findWeather(location)">
+        <div id="result"></div>
+        <div class="form-group">
+            <!-- <google-places location=location class="form-control"></google-places> -->
+            <div class="inner-addon left-addon">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="text" class="rounded" ng-model="location" ng-submit="findWeather(location)" placeholder="Search City..."> </input> 
+            </div>
+        </div>
+    </form>
+
+    <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
+    <h3>Current: {{ place.channel.item.condition.text }} | {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
+
+    <h4><strong>{{ place.item.forecast[0].date }}</strong></h4>
+    <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
+    <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
+    <p>Sunrise: {{ place.channel.astronomy.sunrise }}</p>
+    <p>Sunset: {{ place.channel.astronomy.sunset }}</p>
+
+</div>
+  
