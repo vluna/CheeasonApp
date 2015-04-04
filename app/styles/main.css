@@ -77,14 +77,8 @@ body {
   }
 }
 
-body {
+#dynamicBackground {
   background: #DDEFFF;
-  padding-top: 4.375rem;
-}
-
-#background {
-  position: absolute;
-  bottom: 0;
 }
 
 input[type='text'] {
@@ -103,7 +97,7 @@ input[type='text'] {
 }
 
 .inner-addon { 
-    position: relative; 
+  position: relative; 
 }
 
 /* style icon */
@@ -117,75 +111,24 @@ input[type='text'] {
 }
 
 /* align icon */
-.left-addon .glyphicon  { left:  0px;}
-
-/* add padding  */
-.left-addon input  { padding-left:  30px; }
-
-/*
- * Style tweaks
- * --------------------------------------------------
- */
-
-
-footer {
-  padding: 1.875rem 0;
+.left-addon .glyphicon { 
+  left: 0px;
 }
 
-/*
- * Off Canvas
- * --------------------------------------------------
- */
-@media screen and (max-width: 47.95rem) {
-  .row-offcanvas {
-    top: 0;
-    position: absolute;
-    -webkit-transition: all .25s ease-out;
-         -o-transition: all .25s ease-out;
-            transition: all .25s ease-out;
-  }
+/* add padding  */
+.left-addon input {
+  padding-left: 30px;
+}
 
-/*  .list-group {
-    background-color: black;
-  }*/
+.background {
+  border: none;
+  padding: 10px;
+  background: rgba(255, 255, 255, .3);
+}
 
-  .row-offcanvas-right {
-    right: 0;
-  }
-
-  .row-offcanvas-left {
-    left: 0;
-  }
-
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -75%; /* 6 columns */
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -75%; /* 6 columns */
-  }
-
-  .row-offcanvas-right.active {
-    right: 75%; /* 6 columns */
-  }
-
-  .row-offcanvas-left.active {
-    left: 75%; /* 6 columns */
-  }
-
-  .sidebar-offcanvas {
-    position: absolute;
-    width: 75%; /* 6 columns */
-  }
-
-  .list-group {
-    display: inline-block;
-  }
-
-  .list-group-item {
-    border: 1px solid blue;
-    width: 100%;
-  }
+.viewSnow {
+  position: absolute;
+  z-index: -2;
+  top: 0;
+  left: 0;
 }

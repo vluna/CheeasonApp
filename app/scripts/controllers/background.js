@@ -19,7 +19,7 @@ var Height = 350;
 ////////////////////////////////////////////////////////////////////////////////
 // R E N D E R E R
 
-var renderer = new THREE.WebGLRenderer();
+var renderer = new THREE.WebGLRenderer({ alpha: true });
 
 // SUGGESTION: also call this function when the dom element's size changes.
 renderer.setSize( Width, Height );
@@ -93,23 +93,21 @@ document.body.appendChild( renderer.domElement );
 ////////////////////////////////////////////////////////////////////////////////
 // G E O M E T R Y
 
-for (var i = 0; i < 3; i++) {
-	// This is the geometry data that we will be using to represent our terrain.
-	var geometry = new THREE.PlaneGeometry(
-		// SUGGESTION: change any of the following to best suite your needs. But be
-		//   careful with the segmentations: the more you add, the more expensive it
-		//   gets to render to the screen.
+// This is the geometry data that we will be using to represent our terrain.
+var geometry = new THREE.PlaneGeometry(
+	// SUGGESTION: change any of the following to best suite your needs. But be
+	//   careful with the segmentations: the more you add, the more expensive it
+	//   gets to render to the screen.
 
-		// Width
-		80,
-		// Height
-		80,
-		// Horziontal segmentation
-		20,
-		// Vertical segmentation
-		20
-	);
-}
+	// Width
+	80,
+	// Height
+	80,
+	// Horziontal segmentation
+	20,
+	// Vertical segmentation
+	20
+);
 
 // Below, are a bunch of variables in CamelCase, indicating they are constants.
 // These constants are used as meta information regarding on how the mountains
@@ -234,27 +232,25 @@ for ( var i = 0; i < geometry.faces.length; i++ ) {
 // This is the material that you inject into the mesh constructor. Here, we are
 // using a class that represents phong, and I believe that this is the best
 // one for the effect that you want to achieve (flat, Google KitKat look).
-for (var i = 0; i < 3; i++) {
-	var material = new THREE.MeshPhongMaterial( {
-		shading: THREE.FlatShading,
+var material = new THREE.MeshPhongMaterial( {
+	shading: THREE.FlatShading,
 
-		// Don't draw any texture: just use the geometry's face colour metadata for
-		// applying the "texture" to the faces. This has been set for artistic
-		// reasons. Nothing really technical.
-		vertexColors: THREE.FaceColors,
+	// Don't draw any texture: just use the geometry's face colour metadata for
+	// applying the "texture" to the faces. This has been set for artistic
+	// reasons. Nothing really technical.
+	vertexColors: THREE.FaceColors,
 
-		// An attempt at removing the Phong specular reflection.
-		shininess: -2
-	} );
-}
+	// An attempt at removing the Phong specular reflection.
+	shininess: -2
+} );
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // T E R R A I N   M E S H
 
 // This actually represents our terrain.
-for (var i = 0; i < 3; i++) {
-	var terrain = new THREE.Mesh( geometry, material );
-}
+var terrain = new THREE.Mesh( geometry, material );
+
 
 
 // Rotate the terrain by 90 degrees, clockwise, on the x-axis.
@@ -289,7 +285,6 @@ scene.add( pointLight );
 //   I used point lights because, for a simple example, they're easier to work
 //   with, but are terrible for mimicking sunlight.
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // A M B I E N T   L I G H T
 
@@ -323,11 +318,11 @@ scene.add( ambientLight );
 	//
 	// BEAR IN MIND, that if you have a sky box, this little piece of code is
 	// redundant. REMOVE IT IF YOU HAVE A SKYBOX.
-	renderer.setClearColor( sceneColor, 1 );
+	renderer.setClearColor( 0xDDEFFF, 0 );
 
 	// Use a fog, if you like. I'm using it, and it's giving this slight fade in
 	// the background. You'll notice if you take a closer look.
-	scene.fog = new THREE.FogExp2( sceneColor, 0.02 );
+	scene.fog = new THREE.FogExp2( 0xDDEFFF, 0.02 );
 
 	// This should always be called towards the end.
 	renderer.render( scene, camera );
