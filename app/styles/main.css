@@ -126,7 +126,7 @@ input[type='text'] {
   background: rgba(255, 255, 255, .3);
 }
 
-.viewSnow {
+.viewWeather {
   position: absolute;
   z-index: -2;
   top: 0;

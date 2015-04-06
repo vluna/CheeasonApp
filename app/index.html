@@ -25,12 +25,9 @@
     <!-- Add your site or application content here -->
     <div class="container">
         <div ng-view=""></div>
-        <div ng-controller="WeatherCtrl">
-            <div class="viewSnow" id="snow"></div>
-            <div class="viewSnow" id="rain"></div>
+            <div class="viewWeather" id="snow"></div>
+            <div class="viewWeather" id="rain">
         </div>
-<!--         <div class="viewSnow" id="snow"></div>
- -->
     </div>
 
 
@@ -75,8 +72,5 @@
         <script src="scripts/controllers/background.js"></script>
         <script src="scripts/controllers/weather.js"></script>
         <!-- endbuild -->
-
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=en-US"></script>
-
-</body>
+    </body>
 </html>

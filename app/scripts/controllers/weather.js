@@ -7,8 +7,18 @@
  * # WeatherCtrl
  * Controller of the iat381FinalProjectCheeasonApp
  */
+
 angular.module('iat381FinalProjectCheeasonApp')
 .controller('WeatherCtrl', ['$scope', 'weatherService', function($scope, weatherService) {
+
+  navigator.geolocation.getCurrentPosition(function(pos){
+    $scope.lat = pos.coords.latitude;
+    $scope.lng = pos.coords.longitude;
+    weatherService.getLocation($scope.lat, $scope.lng).then(function(data) {
+        $scope.currentLocation = data;
+        fetchWeather($scope.currentLocation);
+    });
+  })
 
   // Function to fetch the weather
   function fetchWeather(location) {
@@ -19,7 +29,6 @@ angular.module('iat381FinalProjectCheeasonApp')
       // Gets the current time, sunset and sunrise info and formats it in 24hts 
       $scope.sunset = moment($scope.place.channel.astronomy.sunset, ["h:mm A"]).format("HH:mm");
       $scope.sunrise = moment($scope.place.channel.astronomy.sunrise, ["h:mm A"]).format("HH:mm");
-      $scope.currentTime = getCurrentTime();
 
       // If current time is between the sunset and sunrise make the background blue-ish
       // Otherwise make it black
@@ -144,12 +153,6 @@ angular.module('iat381FinalProjectCheeasonApp')
       }
     }); 
   }
-
-  fetchWeather(); // Call function
-
-  $scope.he = window.navigator.geolocation.getCurrentPosition(function(pos){
-    console.log(pos);
-  });
   
   // Function to find the location and fetch it
   $scope.findWeather = function(location) {
@@ -159,6 +162,22 @@ angular.module('iat381FinalProjectCheeasonApp')
 
 .factory('weatherService', ['$http', '$q', function ($http, $q){
   // Function to get the weather by the APO
+  function getLocation (lat, lng) {
+    var currentLocation = $q.defer();
+
+    $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=true')
+      .success(function(data){
+        currentLocation.resolve(data.results[0].address_components[2].long_name + " " + data.results[0].address_components[5].long_name);
+        document.getElementById('dataLoaded').style.display="none";
+        document.getElementById('showMe').style.display="inline";
+
+      })
+      .error(function(err){
+        currentLocation.reject(err);
+      });
+    return currentLocation.promise, currentLocation.promise;
+  }
+
   function getWeather (location) {
     var deferred = $q.defer();
     // Make the call
@@ -169,11 +188,12 @@ angular.module('iat381FinalProjectCheeasonApp')
       .error(function(err){
         deferred.reject(err);
       });
-    return deferred.promise;
+    return deferred.promise
   }
 
   return {
-    getWeather: getWeather
+    getWeather: getWeather,
+    getLocation: getLocation
   };
 }])
 
@@ -207,6 +227,8 @@ var geometry,
     pointLight, 
     light;
 
+var test;
+
 // Store html id/div into a variable
 var $snow = $('#snow'),
     $rain = $('#rain');
@@ -217,18 +239,16 @@ var sceneColor = 0xFFFFFF;
 function snow() {
   // Changes the html and some id
   document.getElementById('dynamicBackground').style.background="#F0F0F0";
-  document.getElementById('rain').style.visibility="hidden";
-  document.getElementById('snow').style.visibility="visible";
-
+  $('#rain').hide();
+  $('#snow').show();
   initSnow();
   animateSnow();
 }
 
 // Initialize the snow particles
 function initSnow() {
-
   geometryFog = new THREE.Geometry();
-  var sprite = THREE.ImageUtils.loadTexture("images/snowflake.png"); // texture
+  sprite = THREE.ImageUtils.loadTexture("images/snowflake.png"); // texture
 
   // Create particles
   for ( i = 0; i < 1000; i ++ ) {
@@ -265,7 +285,6 @@ function initSnow() {
     particles.position.x = Math.random() * 600;
     particles.position.y = Math.random() * 600;
     particles.position.z = Math.random() * 600;
-
     scene.add( particles );
   }
 
@@ -305,13 +324,12 @@ function renderSnow() {
   renderer.render( scene, camera );
 }
 
-
 // Initiate rain  
 function rain() {
   // Changes the html and some id
   document.getElementById('dynamicBackground').style.background="#B8B8B8";
-  document.getElementById('snow').style.visibility="hidden";
-  document.getElementById('rain').style.visibility="visible";
+  $('#rain').show();
+  $('#snow').hide();
 
   initRain();
   animateRain();  
@@ -397,3 +415,10 @@ function renderRain() {
   renderer.setClearColor( sceneColor, 0 );
   renderer.render( scene, camera );
 }
+
+
+
+
+
+
+

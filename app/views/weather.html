@@ -1,5 +1,4 @@
-<div ng-controller="WeatherCtrl">
-  <div class="background">
+<div class="background">
     <form ng-submit="findWeather(location)">
         <div id="result"></div>
         <div class="form-group">
@@ -10,7 +9,13 @@
             </div>
         </div>
     </form>
-    
+
+    <div class="text-center" id="dataLoaded">
+        <!-- <i class="glyphicon glyphicon-search"></i> -->
+        <img src="images/loading.gif" width="40" height="40"><br>
+        Getting Location
+    </div>
+<div id="showMe" style="display: none;">
     <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
     <h3>Current: {{ place.channel.item.condition.text }} | {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
 
@@ -19,4 +24,3 @@
     <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
 </div>
 </div>
-  
