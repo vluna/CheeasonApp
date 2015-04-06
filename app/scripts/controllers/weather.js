@@ -11,6 +11,38 @@
 angular.module('iat381FinalProjectCheeasonApp')
 .controller('WeatherCtrl', ['$scope', 'weatherService', '$aside', function($scope, weatherService, $aside) {
 
+      $scope.items = '';
+ 
+    var initCallback = function(){
+        getItems();
+    };
+ 
+    var dataStore = new IDBStore('todos', initCallback);
+ 
+    var getItemsSuccess = function(data){
+        $scope.items = data;
+        // http://jimhoskins.com/2012/12/17/angularjs-and-apply.html 
+        $scope.$apply(); 
+    };
+ 
+    var errorCallback = function(){
+        console.log('error'); 
+    };
+ 
+    var getItems = function(){
+        dataStore.getAll(getItemsSuccess,errorCallback);
+        console.log('getItems'); 
+    };
+ 
+    $scope.deleteItem = function(item){
+        dataStore.remove(item,getItems,errorCallback);
+    }
+ 
+    $scope.addItem = function(){
+        dataStore.put({'timeStamp': new Date().getTime(), 'text' : $scope.itemname},getItems,errorCallback); 
+        $scope.itemname = ''; 
+    };
+
   // Get users current location
   navigator.geolocation.getCurrentPosition(function(pos){
     
@@ -25,13 +57,14 @@ angular.module('iat381FinalProjectCheeasonApp')
     });
   })
 
-      var asideInstance = $scope.openAside = function openAside(position) {
-      $aside.open({
-        placement: position,
-        templateUrl: 'menu.html',
-        size: 'lg'
-      });
-    };
+  $scope.openAside = function openAside(position, backdrop) {
+    $aside.open({
+      placement: position,
+      templateUrl: 'menu.html',
+      size: 'lg',
+      backdrop: backdrop,
+    });
+  };
 
   // Function to fetch the weather
   function fetchWeather(location) {
@@ -226,36 +259,30 @@ function getCurrentTime() {
 }
 
 // Variables for threejs
-var camera, 
-    scene, 
-    renderer, 
-    particles, 
-    geometryFog, 
-    materials = [], 
-    parameters, 
-    i, 
-    h, 
-    color, 
-    sprite, 
-    size;
+var camera2, 
+    scene2, 
+    renderer2, 
+    particles2, 
+    geometryFog2, 
+    materials2 = [], 
+    parameters2, 
+    color2, 
+    sprite2, 
+    size2;
+
+scene2 = new THREE.Scene();
 
 // Height and width for threejs
-var width = window.innerWidth;
-var height = window.innerHeight-5;
+var width2 = window.innerWidth;
+var height2 = window.innerHeight-5;
 
-var geometry,
-    material, 
-    plane, 
-    pointLight, 
-    light;
-
-var test;
+camera2 = new THREE.PerspectiveCamera(75, width2/height2, 1, 1000);
 
 // Store html id/div into a variable
 var $snow = $('#snow'),
     $rain = $('#rain');
 
-var sceneColor = 0xFFFFFF;
+var sceneColor2 = 0xFFFFFF;
       
 // Initiate snow  
 function snow() {
@@ -269,51 +296,51 @@ function snow() {
 
 // Initialize the snow particles
 function initSnow() {
-  geometryFog = new THREE.Geometry();
-  sprite = THREE.ImageUtils.loadTexture("images/snowflake.png"); // texture
+  geometryFog2 = new THREE.Geometry();
+  sprite2 = THREE.ImageUtils.loadTexture("images/snowflake.png"); // texture
 
   // Create particles
   for ( i = 0; i < 1000; i ++ ) {
 
-    var vertex = new THREE.Vector3();
+    var vertex2 = new THREE.Vector3();
 
-    vertex.x = Math.random() * 2000 - 1000;
-    vertex.y = Math.random() * 2000 - 1000;
-    vertex.z = Math.random() * 2000 - 1000;
+    vertex2.x = Math.random() * 2000 - 1000;
+    vertex2.y = Math.random() * 2000 - 1000;
+    vertex2.z = Math.random() * 2000 - 1000;
 
-    geometryFog.vertices.push( vertex );
+    geometryFog2.vertices.push( vertex2 );
   }
 
   // Parameters for the particles
-  parameters = [ [ [1.0, 0.2, 0.5], sprite, 20 ],
-           [ [0.95, 0.1, 0.5], sprite, 15 ],
-           [ [0.90, 0.05, 0.5], sprite, 10 ],
-           [ [0.85, 0, 0.5], sprite, 8 ],
-           [ [0.80, 0, 0.5], sprite, 5 ],
+  parameters2 = [ [ [1.0, 0.2, 0.5], sprite2, 20 ],
+           [ [0.95, 0.1, 0.5], sprite2, 15 ],
+           [ [0.90, 0.05, 0.5], sprite2, 10 ],
+           [ [0.85, 0, 0.5], sprite2, 8 ],
+           [ [0.80, 0, 0.5], sprite2, 5 ],
            ];
 
   // Give attributes to the particles
-  for ( i = 0; i < parameters.length; i ++ ) {
+  for ( i = 0; i < parameters2.length; i ++ ) {
 
-    color  = parameters[i][0];
-    sprite = parameters[i][1];
-    size   = parameters[i][2];
+    color2  = parameters2[i][0];
+    sprite2 = parameters2[i][1];
+    size2   = parameters2[i][2];
 
-    materials[i] = new THREE.PointCloudMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
-    materials[i].color.setHSL( color[0], color[1], color[2] );
+    materials2[i] = new THREE.PointCloudMaterial({ size: size2, map: sprite2, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+    materials2[i].color.setHSL( color2[0], color2[1], color2[2] );
 
-    particles = new THREE.PointCloud( geometryFog, materials[i] );
+    particles2 = new THREE.PointCloud( geometryFog2, materials2[i] );
 
-    particles.position.x = Math.random() * 600;
-    particles.position.y = Math.random() * 600;
-    particles.position.z = Math.random() * 600;
-    scene.add( particles );
+    particles2.position.x = Math.random() * 600;
+    particles2.position.y = Math.random() * 600;
+    particles2.position.z = Math.random() * 600;
+    scene2.add( particles2 );
   }
 
   // Start the render and append it to the html
-  renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(width, height);
-  $snow.append( renderer.domElement );
+  renderer2 = new THREE.WebGLRenderer({ alpha: true });
+  renderer2.setSize(width2, height2);
+  $snow.append( renderer2.domElement );
 }
 
 // Animate the snow
@@ -324,27 +351,47 @@ function animateSnow() {
 
 // Render the snow
 function renderSnow() {
-  var time = Date.now() * 0.00005;
+  var time2 = Date.now() * 0.00005;
   
   // Camera position
-  camera.position.z = 15;
-  camera.position.y = 300;
+  camera2.position.z = 15;
+  camera2.position.y = 300;
 
   // Keep adding particles
-  for ( i = 0; i < scene.children.length; i ++ ) {
-    var object = scene.children[ i ];
+  for ( i = 0; i < scene2.children.length; i ++ ) {
+    var object2 = scene2.children[ i ];
     
-    if ( object instanceof THREE.PointCloud ) {
-      object.position.y -=5;
+    if ( object2 instanceof THREE.PointCloud ) {
+      object2.position.y -=5;
       
-      if(object.position.y <= -750) {
-        object.position.y =  950;
+      if(object2.position.y <= -750) {
+        object2.position.y =  950;
       }
     }
   }
-  renderer.setClearColor( sceneColor, 0 );
-  renderer.render( scene, camera );
+  renderer2.setClearColor( sceneColor2, 0 );
+  renderer2.render( scene2, camera2 );
 }
+
+// Variables for threejs
+var camera3, 
+    scene3, 
+    renderer3, 
+    materials3 = [], 
+    parameters3, 
+    color3, 
+    sprite3, 
+    size3;
+
+scene3 = new THREE.Scene();
+
+// Height and width for threejs
+var width3 = window.innerWidth;
+var height3 = window.innerHeight-5;
+
+camera3 = new THREE.PerspectiveCamera(75, width3/height3, 1, 1000);
+
+var sceneColor3 = 0xFFFFFF;
 
 // Initiate rain  
 function rain() {
@@ -359,53 +406,52 @@ function rain() {
 
 // Initialize the snow particles
 function initRain() {
-
-  geometryFog = new THREE.Geometry();
-  var sprite = THREE.ImageUtils.loadTexture("images/drop.png");
+  var geometryFog3 = new THREE.Geometry();
+  sprite3 = THREE.ImageUtils.loadTexture("images/drop.png");
 
   // Create particles
   for ( i = 0; i < 1000; i ++ ) {
 
-    var vertex = new THREE.Vector3();
+    var vertex3 = new THREE.Vector3();
 
-    vertex.x = Math.random() * 2000 - 1000;
-    vertex.y = Math.random() * 2000 - 1000;
-    vertex.z = Math.random() * 2000 - 1000;
+    vertex3.x = Math.random() * 2000 - 1000;
+    vertex3.y = Math.random() * 2000 - 1000;
+    vertex3.z = Math.random() * 2000 - 1000;
 
-    geometryFog.vertices.push( vertex );
+    geometryFog3.vertices.push( vertex3 );
   }
 
   // Parameters for the particles
-  parameters = [ [ [1.0, 0.2, 0.5], sprite, 20 ],
-           [ [0.95, 0.1, 0.5], sprite, 15 ],
-           [ [0.90, 0.05, 0.5], sprite, 10 ],
-           [ [0.85, 0, 0.5], sprite, 8 ],
-           [ [0.80, 0, 0.5], sprite, 5 ],
+  parameters3 = [ [ [1.0, 0.2, 0.5], sprite3, 20 ],
+           [ [0.95, 0.1, 0.5], sprite3, 15 ],
+           [ [0.90, 0.05, 0.5], sprite3, 10 ],
+           [ [0.85, 0, 0.5], sprite3, 8 ],
+           [ [0.80, 0, 0.5], sprite3, 5 ],
            ];
 
   // Give attributes to the particles
-  for ( i = 0; i < parameters.length; i ++ ) {
+  for ( i = 0; i < parameters3.length; i ++ ) {
 
-    color  = parameters[i][0];
-    sprite = parameters[i][1];
-    size   = parameters[i][2];
+    color3  = parameters3[i][0];
+    sprite3 = parameters3[i][1];
+    size3   = parameters3[i][2];
 
-    materials[i] = new THREE.PointCloudMaterial({ size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
-    materials[i].color.setHSL( color[0], color[1], color[2] );
+    materials3[i] = new THREE.PointCloudMaterial({ size: size3, map: sprite3, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+    materials3[i].color.setHSL( color3[0], color3[1], color3[2] );
 
-    particles = new THREE.PointCloud( geometryFog, materials[i] );
+    var particles3 = new THREE.PointCloud( geometryFog3, materials3[i] );
 
-    particles.position.x = Math.random() * 600;
-    particles.position.y = Math.random() * 600;
-    particles.position.z = Math.random() * 600;
+    particles3.position.x = Math.random() * 600;
+    particles3.position.y = Math.random() * 600;
+    particles3.position.z = Math.random() * 600;
 
-    scene.add( particles );
+    scene3.add( particles3 );
   }
 
   // Start the render and append it to the html
-  renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(width, height);
-  $rain.append( renderer.domElement );
+  renderer3 = new THREE.WebGLRenderer({ alpha: true });
+  renderer3.setSize(width3, height3);
+  $rain.append( renderer3.domElement );
 }
 
 // Animate the rain
@@ -416,31 +462,27 @@ function animateRain() {
 
 // Render the rain
 function renderRain() {
-  var time = Date.now() * 0.00005;
+  var time3 = Date.now() * 0.00005;
   
   // Camera position
-  camera.position.z = 15;
-  camera.position.y = 300;
+  camera3.position.z = 15;
+  camera3.position.y = 300;
 
   // Keep adding particles
-  for ( i = 0; i < scene.children.length; i ++ ) {
-    var object = scene.children[ i ];
+  for ( i = 0; i < scene3.children.length; i ++ ) {
+    var object3 = scene3.children[ i ];
     
-    if ( object instanceof THREE.PointCloud ) {
-      object.position.y -=5;
+    if ( object3 instanceof THREE.PointCloud ) {
+      object3.position.y -=5;
       
-      if(object.position.y <= -750) {
-        object.position.y =  950;
+      if(object3.position.y <= -750) {
+        object3.position.y =  950;
       }
     }
   }
-  renderer.setClearColor( sceneColor, 0 );
-  renderer.render( scene, camera );
+  renderer3.setClearColor( sceneColor3, 0 );
+  renderer3.render( scene3, camera3 );
 }
-
-
-
-
 
 
 

@@ -1,9 +1,5 @@
-      <p>
-        <button type="button" class="btn btn-default btn-lg pull-right" ng-click="openAside('right')">
-          Menu <span class="glyphicon glyphicon-align-justify"></span>
-        </button>
-      </p>
-
+ <div class="swipeGesture" ng-swipe-left="openAside('right', true)">
+ </div>
 <div class="background">
     <form ng-submit="findWeather(location)">
         <div id="result"></div>
@@ -30,4 +26,4 @@
         <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
         <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
     </div>
-</div>
+<div>
