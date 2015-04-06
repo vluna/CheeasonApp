@@ -9,19 +9,33 @@
  */
 
 angular.module('iat381FinalProjectCheeasonApp')
-.controller('WeatherCtrl', ['$scope', 'weatherService', function($scope, weatherService) {
+.controller('WeatherCtrl', ['$scope', 'weatherService', '$aside', function($scope, weatherService, $aside) {
 
+  // Get users current location
   navigator.geolocation.getCurrentPosition(function(pos){
+    
+    // Store the latitude and longitud in variables
     $scope.lat = pos.coords.latitude;
     $scope.lng = pos.coords.longitude;
+
+    // Pass lat and long to converted to a City name
     weatherService.getLocation($scope.lat, $scope.lng).then(function(data) {
         $scope.currentLocation = data;
         fetchWeather($scope.currentLocation);
     });
   })
 
+      var asideInstance = $scope.openAside = function openAside(position) {
+      $aside.open({
+        placement: position,
+        templateUrl: 'menu.html',
+        size: 'lg'
+      });
+    };
+
   // Function to fetch the weather
   function fetchWeather(location) {
+    // Pass the locstion to retrieve the weather
     weatherService.getWeather(location).then(function(data) {
       // Loads the data to place so it si readable by the html
       $scope.place = data;
@@ -156,15 +170,20 @@ angular.module('iat381FinalProjectCheeasonApp')
   
   // Function to find the location and fetch it
   $scope.findWeather = function(location) {
+    // If user does not allow to use current location allow them to search anyways
+    document.getElementById('dataLoaded').style.display="none";
+    document.getElementById('showMe').style.display="inline";
     fetchWeather(location);
   };
 }])
 
 .factory('weatherService', ['$http', '$q', function ($http, $q){
-  // Function to get the weather by the APO
+  
+  // Function to get the location by the API
   function getLocation (lat, lng) {
     var currentLocation = $q.defer();
 
+    // Make the API call
     $http.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=true')
       .success(function(data){
         currentLocation.resolve(data.results[0].address_components[2].long_name + " " + data.results[0].address_components[5].long_name);
@@ -175,12 +194,14 @@ angular.module('iat381FinalProjectCheeasonApp')
       .error(function(err){
         currentLocation.reject(err);
       });
-    return currentLocation.promise, currentLocation.promise;
+    return currentLocation.promise;
   }
 
+  // Function to get the weather by the API
   function getWeather (location) {
     var deferred = $q.defer();
-    // Make the call
+
+    // Make the API call
     $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u%3D%22c%22%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22' + location  + '%22)&format=json&callback=')
       .success(function(data){
         deferred.resolve(data.query.results);
@@ -191,6 +212,7 @@ angular.module('iat381FinalProjectCheeasonApp')
     return deferred.promise
   }
 
+  // Return the weather and location
   return {
     getWeather: getWeather,
     getLocation: getLocation

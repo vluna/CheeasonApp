@@ -1,3 +1,9 @@
+      <p>
+        <button type="button" class="btn btn-default btn-lg pull-right" ng-click="openAside('right')">
+          Menu <span class="glyphicon glyphicon-align-justify"></span>
+        </button>
+      </p>
+
 <div class="background">
     <form ng-submit="findWeather(location)">
         <div id="result"></div>
@@ -13,14 +19,15 @@
     <div class="text-center" id="dataLoaded">
         <!-- <i class="glyphicon glyphicon-search"></i> -->
         <img src="images/loading.gif" width="40" height="40"><br>
-        Getting Location
+        Getting Your Location
     </div>
-<div id="showMe" style="display: none;">
-    <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
-    <h3>Current: {{ place.channel.item.condition.text }} | {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
 
-    <h4><strong>{{ place.item.forecast[0].date }}</strong></h4>
-    <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
-    <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
-</div>
+    <div id="showMe" style="display: none;">
+        <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
+        <h3>Current: {{ place.channel.item.condition.text }} | {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
+
+        <h4><strong>{{ place.item.forecast[0].date }}</strong></h4>
+        <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
+        <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
+    </div>
 </div>
