@@ -1,24 +1,30 @@
-<div id="h" ng-swipe-right='closeMenu()' >
-    <p>Add a new item:<br>
-    <form ng-submit="addItem()">
-        <input type="text" ng-model="itemname" size="30" placeholder="item name">
-        <button class="btn-primary" type="submit"><i class="icon-plus icon-white"></i></button>
-    </form>
-    </p> 
-    <p>Items in your list:</p>
-    <p> <input type="text" ng-model="search" class="search-query" placeholder="Search"> </p>
-    <table ng-repeat="item in items | filter:search | orderBy:'text'">
-        <tr>
-            <td width="100px">{{item.text}}</td>
-            <td>
-                <a class="btn btn-mini btn-danger" ng-click="deleteItem(item.id)"><i class="icon-remove icon-white"></i></a>
+<div id="swipeMenuBackground">
+    <div id="swipeMenu" ng-swipe-right='closeMenu()' >
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-6 active" id="starredToggle">STARRED <span class="glyphicon glyphicon-star"></span></div>
+                <div class="col-xs-6" id="settingsToggle">SETTINGS <span class="glyphicon glyphicon-cog"></span></div>
+            </div>
+        </div>
+        <div id="starred" class="starredAlignment">
+            <h4>Add a new city:</h4>
+            <form ng-submit="addItem()">
+                <input class="inputCity" type="text" ng-model="itemname" placeholder="E.g. Vancouver, Canada">
+            </form> 
+            <br>
+            <div ng-repeat="item in items | filter:search | orderBy:'text'">
+                <div class="col-xs-9" id="goWeather">
+                    <h4 ng-click="use(item.id); closeMenu()">{{item.text}}</h4>
+                </div>
+                <div class="col-xs-3">
+                    <img src="images/remove.svg" ng-click="deleteItem(item.id)" width="35px" height="35px" style="padding-top: 5px;">
+                </div>
 
-                <a class="btn btn-lg btn-danger" ng-click="use(item.id)"><i class="icon-remove icon-white"></i></a>
-            </td> 
-        </tr> 
-    </table>
+                <br><br>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 <div class="swipeGesture" ng-swipe-left="openMenu()">
 </div>
@@ -50,6 +56,34 @@
         <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
     </div>
 <div>
-    <script>
+<script type="text/javascript">
 
+    $("#starredToggle").click(function(){
+        $("#starred").show("fast");
+        $("#settings").hide();
+
+        $("#starredToggle").addClass('active');
+        $("#settingsToggle").removeClass('active');
+
+        $("#settingsToggle").addClass('notActive');
+        $("#starredToggle").removeClass('notActive');
+    });
+    $("#settingsToggle").click(function(){
+        $("#starred").hide();
+        $("#settings").show("fast");
+
+        $("#settingsToggle").addClass('active');
+        $("#starredToggle").removeClass('active');
+
+        $("#starredToggle").addClass('notActive');
+        $("#settingsToggle").removeClass('notActive');
+    });
+
+    $('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active');  
+    
+    if ($(this).find('.btn-primary').size()>0) {
+        $(this).find('.btn').toggleClass('btn-primary');
+    }
+});
     </script>

@@ -9,7 +9,7 @@
  */
 
 angular.module('iat381FinalProjectCheeasonApp')
-.controller('WeatherCtrl', ['$scope', 'weatherService', '$aside', function($scope, weatherService, $aside) {
+.controller('WeatherCtrl', ['$scope', 'weatherService', function($scope, weatherService) {
     
     $scope.items = '';
  
@@ -17,11 +17,10 @@ angular.module('iat381FinalProjectCheeasonApp')
         getItems();
     };
  
-    var dataStore = new IDBStore('todos', initCallback);
+    var dataStore = new IDBStore('cities', initCallback);
  
     var getItemsSuccess = function(data){
         $scope.items = data;
-        // http://jimhoskins.com/2012/12/17/angularjs-and-apply.html 
         $scope.$apply(); 
     };
  
@@ -80,20 +79,15 @@ angular.module('iat381FinalProjectCheeasonApp')
     });
   })
 
-  // $scope.openAside = function openAside(position, backdrop) {
-  //   $aside.open({
-  //     placement: position,
-  //     templateUrl: 'menu.html',
-  //     size: 'lg',
-  //     backdrop: backdrop,
-  //   });
-  // };
-
   $scope.openMenu = function() {
-    document.getElementById('h').style.right="0px";
+    document.getElementById('swipeMenu').style.right="0px";
+    document.getElementById('swipeMenuBackground').style.right="0%";
+    document.getElementById('swipeMenu').style.transition=".5s";
   }
   $scope.closeMenu = function() {
-    document.getElementById('h').style.right="-90%";
+    document.getElementById('swipeMenu').style.right="-75%";
+    document.getElementById('swipeMenu').style.transition=".5s";
+    document.getElementById('swipeMenuBackground').style.right="-100%";
   }
 
   // Function to fetch the weather

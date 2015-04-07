@@ -88,8 +88,9 @@ input[type='text'] {
   font-size: 20px;
 }
 
-input {
-  padding-left: 100px;
+input.inputCity {
+  padding-left: 10px;
+  font-size: 16px;
 }
 
 .rounded { 
@@ -148,19 +149,19 @@ input {
 
 #starredToggle {
   text-align: center;
-  padding-top: 2%;
-  padding-left: 2%;
-  padding-bottom: 2%;
-  padding-right: 2%;
+  padding-top: 7%;
+  padding-left: 7%;
+  padding-bottom: 7%;
+  padding-right: 7%;
 }
 
 #settingsToggle {
   border-left: 1px solid #C8C8C8;
   text-align: center;
-  padding-top: 2%;
-  padding-left: 2%;
-  padding-bottom: 2%;
-  padding-right: 2%;
+  padding-top: 7%;
+  padding-left: 7%;
+  padding-bottom: 7%;
+  padding-right: 7%;
 }
 
 .active {
@@ -171,12 +172,31 @@ input {
   border-bottom: 1px solid #C8C8C8;
 }
 
-#h {
+#swipeMenu {
   z-index: 99;
   position: absolute;
   top: 0px;
-  right: -90%;
-  background: blue;
+  right: -75%;
+  background: white;
   height: 100%;
-  width: 90%;
+  width: 75%;
+}
+
+.starredAlignment {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#swipeMenuBackground {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, .7);
+  width: 100%;
+  height: 100%;
+}
+
+#goWeather:hover {
+  background: gray;
 }
