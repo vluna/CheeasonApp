@@ -1,6 +1,29 @@
- <div class="swipeGesture" ng-swipe-left="openAside('right', true)">
- </div>
-<div class="background">
+<div id="h" ng-swipe-right='closeMenu()' >
+    <p>Add a new item:<br>
+    <form ng-submit="addItem()">
+        <input type="text" ng-model="itemname" size="30" placeholder="item name">
+        <button class="btn-primary" type="submit"><i class="icon-plus icon-white"></i></button>
+    </form>
+    </p> 
+    <p>Items in your list:</p>
+    <p> <input type="text" ng-model="search" class="search-query" placeholder="Search"> </p>
+    <table ng-repeat="item in items | filter:search | orderBy:'text'">
+        <tr>
+            <td width="100px">{{item.text}}</td>
+            <td>
+                <a class="btn btn-mini btn-danger" ng-click="deleteItem(item.id)"><i class="icon-remove icon-white"></i></a>
+
+                <a class="btn btn-lg btn-danger" ng-click="use(item.id)"><i class="icon-remove icon-white"></i></a>
+            </td> 
+        </tr> 
+    </table>
+</div>
+
+
+<div class="swipeGesture" ng-swipe-left="openMenu()">
+</div>
+
+<div class="background" style="text-align: center;">
     <form ng-submit="findWeather(location)">
         <div id="result"></div>
         <div class="form-group">
@@ -20,10 +43,13 @@
 
     <div id="showMe" style="display: none;">
         <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
-        <h3>Current: {{ place.channel.item.condition.text }} | {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
+        <h3>{{ place.channel.item.condition.text }} <br> {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
 
         <h4><strong>{{ place.item.forecast[0].date }}</strong></h4>
         <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
         <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
     </div>
 <div>
+    <script>
+
+    </script>

@@ -10,8 +10,8 @@
 
 angular.module('iat381FinalProjectCheeasonApp')
 .controller('WeatherCtrl', ['$scope', 'weatherService', '$aside', function($scope, weatherService, $aside) {
-
-      $scope.items = '';
+    
+    $scope.items = '';
  
     var initCallback = function(){
         getItems();
@@ -39,10 +39,33 @@ angular.module('iat381FinalProjectCheeasonApp')
     }
  
     $scope.addItem = function(){
-        dataStore.put({'timeStamp': new Date().getTime(), 'text' : $scope.itemname},getItems,errorCallback); 
+        dataStore.put({'text' : $scope.itemname},getItems,errorCallback); 
         $scope.itemname = ''; 
     };
 
+    var onSuccess = function(data){
+      $scope.test = data;
+      console.log($scope.test.text); 
+      $scope.$apply(); 
+      fetchWeather($scope.test.text);
+
+    }
+
+    $scope.use = function(item){
+      dataStore.get(item, onSuccess, errorCallback); 
+    };
+
+  // Get current time
+  $scope.currentTime = getCurrentTime();
+
+  // Call the condition renders
+  snow();
+  rain();
+
+  // Make the conditions hidden at the begining
+  document.getElementById("rain").style.visibility="hidden";
+  document.getElementById("snow").style.visibility="hidden";
+   
   // Get users current location
   navigator.geolocation.getCurrentPosition(function(pos){
     
@@ -57,14 +80,21 @@ angular.module('iat381FinalProjectCheeasonApp')
     });
   })
 
-  $scope.openAside = function openAside(position, backdrop) {
-    $aside.open({
-      placement: position,
-      templateUrl: 'menu.html',
-      size: 'lg',
-      backdrop: backdrop,
-    });
-  };
+  // $scope.openAside = function openAside(position, backdrop) {
+  //   $aside.open({
+  //     placement: position,
+  //     templateUrl: 'menu.html',
+  //     size: 'lg',
+  //     backdrop: backdrop,
+  //   });
+  // };
+
+  $scope.openMenu = function() {
+    document.getElementById('h').style.right="0px";
+  }
+  $scope.closeMenu = function() {
+    document.getElementById('h').style.right="-90%";
+  }
 
   // Function to fetch the weather
   function fetchWeather(location) {
@@ -181,7 +211,10 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "29":
         case "30":
         case "44":
-          snow();
+          document.getElementById('dynamicBackground').style.background="#F0F0F0";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="visible";
+          //snow();
           break;
 
         // If it is clear
@@ -190,12 +223,16 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "33":
         case "34":
         case "36":
-          rain();
+          document.getElementById('dynamicBackground').style.background="#B8B8B8";
+          document.getElementById("rain").style.visibility="visible";
+          document.getElementById("snow").style.visibility="hidden";
+          //rain();
           break;
 
         // If condition is not available
         default:
-          alert("Unavailable")
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
           break;
       }
     }); 
@@ -287,9 +324,6 @@ var sceneColor2 = 0xFFFFFF;
 // Initiate snow  
 function snow() {
   // Changes the html and some id
-  document.getElementById('dynamicBackground').style.background="#F0F0F0";
-  $('#rain').hide();
-  $('#snow').show();
   initSnow();
   animateSnow();
 }
@@ -327,7 +361,7 @@ function initSnow() {
     size2   = parameters2[i][2];
 
     materials2[i] = new THREE.PointCloudMaterial({ size: size2, map: sprite2, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
-    materials2[i].color.setHSL( color2[0], color2[1], color2[2] );
+    materials2[i].color.setHSL( color2[10], color2[0], color2[0] );
 
     particles2 = new THREE.PointCloud( geometryFog2, materials2[i] );
 
@@ -396,10 +430,6 @@ var sceneColor3 = 0xFFFFFF;
 // Initiate rain  
 function rain() {
   // Changes the html and some id
-  document.getElementById('dynamicBackground').style.background="#B8B8B8";
-  $('#rain').show();
-  $('#snow').hide();
-
   initRain();
   animateRain();  
 }
@@ -437,7 +467,7 @@ function initRain() {
     size3   = parameters3[i][2];
 
     materials3[i] = new THREE.PointCloudMaterial({ size: size3, map: sprite3, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
-    materials3[i].color.setHSL( color3[0], color3[1], color3[2] );
+    materials3[i].color.setHSL( color3[5], color3[0], color3[0] );
 
     var particles3 = new THREE.PointCloud( geometryFog3, materials3[i] );
 

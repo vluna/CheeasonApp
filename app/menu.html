@@ -1,3 +1,24 @@
+   <div ng-controller="WeatherCtrl" 
+    <p>Add a new item:<br>
+    <form ng-submit="addItem()">
+        <input type="text" ng-model="itemname" size="30" placeholder="item name">
+        <button class="btn-primary" type="submit"><i class="icon-plus icon-white"></i></button>
+    </form>
+    </p>  </div>
+    <p>Items in your list:</p>
+    <p> <input type="text" ng-model="search" class="search-query" placeholder="Search"> </p>
+    <table ng-repeat="item in items | filter:search | orderBy:'text'">
+        <tr>
+            <td width="100px">{{item.text}}</td>
+            <td>
+                <a class="btn btn-mini btn-danger" ng-click="deleteItem(item.id)"><i class="icon-remove icon-white"></i></a>
+
+                <a class="btn btn-lg btn-danger" ng-click="use(item.id)"><i class="icon-remove icon-white"></i></a>
+            </td> 
+        </tr> 
+    </table>
+</div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-6 active" id="starredToggle">STARRED <span class="glyphicon glyphicon-star"></span></div>
@@ -6,7 +27,7 @@
 </div>
 
 <div class="modal-body">
-		    <div role="tabpanel" style="display: none;" class="tab-pane" id="settings">
+	<div role="tabpanel" style="display: none;" class="tab-pane" id="settings">
     		<div class="row">
 	<div class="col-sm-12 bg">
 	    <div class="col-sm-3">

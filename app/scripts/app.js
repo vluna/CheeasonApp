@@ -17,7 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngAside',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'indexedDB',
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -28,4 +29,4 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
