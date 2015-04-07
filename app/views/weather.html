@@ -23,6 +23,57 @@
                 <br><br>
             </div>
         </div>
+         <div id="settings" class="starredAlignment">
+            <h4>Toggle Settings:</h4>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <h5><span>LOCATION</span></h5>
+                </div>
+                <div class="col-xs-6">
+                  <div class="btn-group btn-toggle"> 
+                      <button id="showLocation" class="btn btn-sm btn-default active">ON</button>
+                      <button id="hideLocation" class="btn btn-sm btn-primary">OFF</button>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <h5><span>HIGH/LOW</span></h5>
+                </div>
+                <div class="col-xs-6">
+                  <div class="btn-group btn-toggle"> 
+                      <button id="showHighLow" class="btn btn-sm btn-default active">ON</button>
+                      <button id="hideHighLow" class="btn btn-sm btn-primary">OFF</button>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <h5><span>WIND</span></h5>
+                </div>
+                <div class="col-xs-6">
+                  <div class="btn-group btn-toggle"> 
+                      <button id="showWind" class="btn btn-sm btn-default active">ON</button>
+                      <button id="hideWind" class="btn btn-sm btn-primary">OFF</button>
+                  </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <h5><span>CONDITION</span></h5>
+                </div>
+                <div class="col-xs-6">
+                  <div class="btn-group btn-toggle"> 
+                      <button id="showCondition" class="btn btn-sm btn-default active">ON</button>
+                      <button id="hideCondition" class="btn btn-sm btn-primary">OFF</button>
+                  </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -48,15 +99,61 @@
     </div>
 
     <div id="showMe" style="display: none;">
-        <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
-        <h3>{{ place.channel.item.condition.text }} <br> {{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
+        <div id="location" style="visibility: visible;">
+            <h1>{{ place.channel.location.city }} {{ place.channel.location.country }}</h1>
+        </div>
+        <div id="condition" style="visibility: visible;">
+            <h3>{{ place.channel.item.condition.text }} <br>{{ place.channel.item.condition.temp }}°{{ place.channel.units.temperature }}</h3>
+        </div>
 
         <h4><strong>{{ place.item.forecast[0].date }}</strong></h4>
-        <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
-        <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
+        <div id="highLow" style="visibility: visible;">
+            <p>H: {{ place.channel.item.forecast[0].high }}°{{ place.channel.units.temperature }} | L: {{ place.channel.item.forecast[0].low }}°{{ place.channel.units.temperature }}</p>
+        </div>
+        <div id="wind" style="visibility: visible;">
+            <p>Wind: {{ place.channel.wind.speed }} {{ place.channel.units.speed }}</p>
+        </div>
     </div>
-<div>
+</div>
+
+
 <script type="text/javascript">
+
+    $("#showHighLow").click(function(){
+        $("#highLow").show("fast");
+    })
+
+    $("#hideHighLow").click(function(){
+        $("#highLow").hide("fast");
+    })
+
+    $("#showWind").click(function(){
+        $("#wind").show("fast");
+    })
+
+    $("#hideWind").click(function(){
+        $("#wind").hide("fast");
+    })
+
+    $("#showCondition").click(function(){
+        $("#condition").show("fast");
+    })
+
+    $("#hideCondition").click(function(){
+        $("#condition").hide("fast");
+    })
+
+     $("#showLocation").click(function(){
+        $("#location").show("fast");
+    })
+
+    $("#hideLocation").click(function(){
+        $("#location").hide("fast");
+    })
+
+
+
+
 
     $("#starredToggle").click(function(){
         $("#starred").show("fast");
@@ -78,7 +175,10 @@
         $("#starredToggle").addClass('notActive');
         $("#settingsToggle").removeClass('notActive');
     });
-
+        $(".swipeGesture").click(function(){
+        $("#starred").show("fast");
+        $("#settings").hide();
+    });
     $('.btn-toggle').click(function() {
     $(this).find('.btn').toggleClass('active');  
     

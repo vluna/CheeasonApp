@@ -12,7 +12,7 @@ angular.module('iat381FinalProjectCheeasonApp')
 .controller('WeatherCtrl', ['$scope', 'weatherService', function($scope, weatherService) {
     
     $scope.items = '';
- 
+    
     var initCallback = function(){
         getItems();
     };
@@ -261,12 +261,17 @@ angular.module('iat381FinalProjectCheeasonApp')
     return currentLocation.promise;
   }
 
+  var unit;
+  function retrieveTemp(unit){
+    unit = unit;
+  }
+
   // Function to get the weather by the API
   function getWeather (location) {
     var deferred = $q.defer();
 
     // Make the API call
-    $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u%3D%22c%22%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22' + location  + '%22)&format=json&callback=')
+    $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u%3D%22'+ unit +'%22%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22' + location  + '%22)&format=json&callback=')
       .success(function(data){
         deferred.resolve(data.query.results);
       })
