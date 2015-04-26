@@ -10,6 +10,8 @@ var angularSpeed = 0.2;
 var counter = 0;
 var vertexCount  = 0;
 
+var fogValue = .02;
+
 ////////////////////////////////////////////////////////////////////////////////
 // R E N D E R E R
 
@@ -60,6 +62,10 @@ for (var i = 0; i < 2; i++) {
 		// Vertical segmentation
 		40
 	);
+}
+
+function foggy(val) {
+	fogValue = val;
 }
 
 //Variables for the Mountains 
@@ -200,7 +206,7 @@ scene.add( ambientLight );
 
 	terrain.rotation.z += .006;
 
-	scene.fog = new THREE.FogExp2( sceneColor, 0.02 );
+	scene.fog = new THREE.FogExp2( sceneColor, fogValue );
 
 	renderer.render( scene, camera );
 
@@ -266,5 +272,4 @@ function updateTerrain(mountains, geometry) {
      }, 2000);}); 
 
 	 //end of whitePeak function
-	
 

@@ -60,11 +60,13 @@ angular.module('iat381FinalProjectCheeasonApp')
   // Call the condition renders
   snow();
   rain();
+  cloudy();
 
   // Make the conditions hidden at the begining
   document.getElementById("rain").style.visibility="hidden";
   document.getElementById("snow").style.visibility="hidden";
-   
+  document.getElementById("clouds").style.visibility="hidden";
+
   // Get users current location
   navigator.geolocation.getCurrentPosition(function(pos){
     
@@ -92,6 +94,7 @@ angular.module('iat381FinalProjectCheeasonApp')
 
   // Function to fetch the weather
   function fetchWeather(location) {
+
     // Pass the locstion to retrieve the weather
     weatherService.getWeather(location).then(function(data) {
       // Loads the data to place so it si readable by the html
@@ -118,17 +121,14 @@ angular.module('iat381FinalProjectCheeasonApp')
 
         // If it is a tornado
         case "0":
-          alert("Tornado");
           break;
 
         // If it is a tropical storm
         case "1":
-          alert("Tropical Storm");
           break;
 
         // If if is a hurricane
         case "2":
-          alert("Hurricane");
           break;
 
         // If it is a thunderstorm
@@ -139,7 +139,6 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "39":
         case "45":
         case "47":
-          alert("Thunderstorm");
           break;
 
         // If it is raining
@@ -152,7 +151,10 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "12":
         case "35":
         case "40":
-          alert("Raining");
+          document.getElementById('dynamicBackground').style.background="#B8B8B8";
+          document.getElementById("rain").style.visibility="visible";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is snowing
@@ -167,23 +169,24 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "42":
         case "43":
         case "46":
-          alert("Snowing");
+          document.getElementById('dynamicBackground').style.background="#F0F0F0";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="visible";
+          foggy(.02);
           break;
 
         // If it is dusty
         case "19":
-          alert("Dust");
           break;
 
         // If it is foggy
         case "20":
         case "21":
-          alert("Foggy");
+          foggy(.04);
           break;
 
         // If it is smokey
         case "19":
-          alert("Smokey");
           break;
 
         // If it is windy
@@ -191,12 +194,10 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "24":
         case "43":
         case "46":
-          alert("Windy");
           break;
 
         // If it is cold
         case "25":
-          alert("Cold");
 
         // If it is clouudy
         case "26":
@@ -205,10 +206,7 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "29":
         case "30":
         case "44":
-          document.getElementById('dynamicBackground').style.background="#F0F0F0";
-          document.getElementById("rain").style.visibility="hidden";
-          document.getElementById("snow").style.visibility="visible";
-          //snow();
+          document.getElementById("clouds").style.visibility="visible";
           break;
 
         // If it is clear
@@ -217,10 +215,6 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "33":
         case "34":
         case "36":
-          document.getElementById('dynamicBackground').style.background="#B8B8B8";
-          document.getElementById("rain").style.visibility="visible";
-          document.getElementById("snow").style.visibility="hidden";
-          //rain();
           break;
 
         // If condition is not available
@@ -231,7 +225,6 @@ angular.module('iat381FinalProjectCheeasonApp')
       }
     }); 
   }
-  
   // Function to find the location and fetch it
   $scope.findWeather = function(location) {
     // If user does not allow to use current location allow them to search anyways
@@ -261,17 +254,14 @@ angular.module('iat381FinalProjectCheeasonApp')
     return currentLocation.promise;
   }
 
-  var unit;
-  function retrieveTemp(unit){
-    unit = unit;
-  }
+
 
   // Function to get the weather by the API
   function getWeather (location) {
     var deferred = $q.defer();
 
     // Make the API call
-    $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u%3D%22'+ unit +'%22%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22' + location  + '%22)&format=json&callback=')
+    $http.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20u%3D%22c%22%20AND%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text=%22' + location  + '%22)&format=json&callback=')
       .success(function(data){
         deferred.resolve(data.query.results);
       })
@@ -316,6 +306,7 @@ camera2 = new THREE.PerspectiveCamera(75, width2/height2, 1, 1000);
 
 // Store html id/div into a variable
 var $snow = $('#snow'),
+    $clouds = $('#clouds'),
     $rain = $('#rain');
 
 var sceneColor2 = 0xFFFFFF;
@@ -513,5 +504,110 @@ function renderRain() {
   renderer3.render( scene3, camera3 );
 }
 
+// Variables for threejs
+var camera4, 
+    scene4, 
+    renderer4, 
+    materials4 = [], 
+    parameters4, 
+    color4, 
+    sprite4, 
+    size4;
+
+scene4 = new THREE.Scene();
+
+// Height and width for threejs
+var width4 = window.innerWidth;
+var height4 = (window.innerHeight+200)/2;
+
+camera4 = new THREE.PerspectiveCamera(75, width4/height4, 1, 500);
+
+var sceneColor4 = 0xFFFFFF;
+
+// Initiate rain  
+function cloudy() {
+  // Changes the html and some id
+  initClouds();
+  animateClouds();  
+}
+
+// Initialize the snow particles
+function initClouds() {
+  var geometryFog4 = new THREE.Geometry();
+  sprite4 = THREE.ImageUtils.loadTexture("images/clouds.png");
+
+  // Create particles
+  for ( i = 0; i < 1000; i ++ ) {
+
+    var vertex4 = new THREE.Vector4();
+
+    vertex4.x = Math.random() * 2000 - 1000;
+    vertex4.y = Math.random() * 2000 - 1000;
+    vertex4.z = Math.random() * 2000 - 1000;
+
+    geometryFog4.vertices.push( vertex4 );
+  }
+
+  // Parameters for the particles
+  parameters4 = [ [ [1.0, 0.2, 0.5], sprite4, 20 ],
+           [ [0.95, 0.1, 0.5], sprite4, 15 ],
+           [ [0.90, 0.05, 0.5], sprite4, 10 ],
+           [ [0.85, 0, 0.5], sprite4, 8 ],
+           [ [0.80, 0, 0.5], sprite4, 5 ],
+           ];
+
+  // Give attributes to the particles
+  for ( i = 0; i < parameters4.length; i ++ ) {
+
+    color4  = parameters4[i][0];
+    sprite4 = parameters4[i][1];
+    size4   = parameters4[i][2];
+
+    materials4[i] = new THREE.PointCloudMaterial({ size: size4, map: sprite4, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+    materials4[i].color.setHSL( color4[5], color4[0], color4[0] );
+
+    var particles4 = new THREE.PointCloud( geometryFog4, materials4[i] );
+
+    particles4.position.x = Math.random() * 600;
+    particles4.position.z = Math.random() * 500;
+
+    scene4.add( particles4 );
+  }
+
+  // Start the render and append it to the html
+  renderer4 = new THREE.WebGLRenderer({ alpha: true });
+  renderer4.setSize(width4, height4);
+  $clouds.append( renderer4.domElement );
+}
+
+// Animate the rain
+function animateClouds() {
+  requestAnimationFrame( animateClouds );
+  renderClouds();
+}
+
+// Render the rain
+function renderClouds() {
+  var time4 = Date.now() * 0.00005;
+  
+  // Camera position
+  camera4.position.z = -10;
+  camera4.position.x = 300;
+
+  // Keep adding particles
+  for ( i = 0; i < scene4.children.length; i ++ ) {
+    var object4 = scene4.children[ i ];
+    
+    if ( object4 instanceof THREE.PointCloud ) {
+      object4.position.x -= 1;
+      
+      if(object4.position.x <= -750) {
+        object4.position.x =  950;
+      }
+    }
+  }
+  renderer4.setClearColor( sceneColor4, 0 );
+  renderer4.render( scene4, camera4 );
+}
 
 
