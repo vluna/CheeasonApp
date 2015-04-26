@@ -1,0 +1,28 @@
+<div ng-controller="WeatherCtrl"> <p>Add a new item:<br> <form ng-submit="addItem()"> <input type="text" ng-model="itemname" size="30" placeholder="item name"> <button class="btn-primary" type="submit"><i class="icon-plus icon-white"></i></button> </form> </p> </div> <p>Items in your list:</p> <p> <input type="text" ng-model="search" class="search-query" placeholder="Search"> </p> <table ng-repeat="item in items | filter:search | orderBy:'text'"> <tr> <td width="100px">{{item.text}} <td> <a class="btn btn-mini btn-danger" ng-click="deleteItem(item.id)"><i class="icon-remove icon-white"></i></a> <a class="btn btn-lg btn-danger" ng-click="use(item.id)"><i class="icon-remove icon-white"></i></a>   </table>  <div class="container-fluid"> <div class="row"> <div class="col-xs-6 active" id="starredToggle">STARRED <span class="glyphicon glyphicon-star"></span></div> <div class="col-xs-6" id="settingsToggle">SETTINGS <span class="glyphicon glyphicon-cog"></span></div> </div> </div> <div class="modal-body"> <div role="tabpanel" style="display: none" class="tab-pane" id="settings"> <div class="row"> <div class="col-sm-12 bg"> <div class="col-sm-3"> <h5><span>UNITS</span></h5> </div> <div class="col-sm-3"> <div class="btn-group btn-toggle"> <button class="btn btn-xs btn-default">°C</button> <button class="btn btn-xs btn-primary active">F</button> </div> </div> </div> </div> <hr> <div class="row"> <div class="col-sm-12 bg"> <div class="col-sm-3"> <h5><span>HIGH/LOW</span></h5> </div> <div class="col-sm-3"> <div class="btn-group btn-toggle"> <button class="btn btn-xs btn-default">ON</button> <button class="btn btn-xs btn-primary active">OFF</button> </div> </div> </div> </div> <hr> <div class="row"> <div class="col-sm-12 bg"> <div class="col-sm-3"> <h5><span>SUNRISE/SUNSET</span></h5> </div> <div class="col-sm-3"> <div class="btn-group btn-toggle"> <button class="btn btn-xs btn-default">ON</button> <button class="btn btn-xs btn-primary active">OFF</button> </div> </div> </div> </div> <hr> <div class="row"> <div class="col-sm-12 bg"> <div class="col-sm-3"> <h5><span>WIND</span></h5> </div> <div class="col-sm-3"> <div class="btn-group btn-toggle"> <button class="btn btn-xs btn-default">ON</button> <button class="btn btn-xs btn-primary active">OFF</button> </div> </div> </div> </div> <hr> <div class="row"> <div class="col-sm-12 bg"> <div class="col-sm-3"> <h5><span>CONDITION</span></h5> </div> <div class="col-sm-3"> <div class="btn-group btn-toggle"> <button class="btn btn-xs btn-default">ON</button> <button class="btn btn-xs btn-primary active">OFF</button> </div> </div> </div> </div> <hr> Look i'm in aside. hdhwidw idh widh widh widh iw dhwi dhiw dhwid hwid hwid hwid whdi wdhiw dhiw dhiwd hwdi whid whwid hwdi whiw hdwi </div> <script type="text/javascript">$("#starredToggle").click(function(){
+        $("#starred").show("fast");
+        $("#settings").hide();
+
+        $("#starredToggle").addClass('active');
+        $("#settingsToggle").removeClass('active');
+
+        $("#settingsToggle").addClass('notActive');
+    	$("#starredToggle").removeClass('notActive');
+    });
+    $("#settingsToggle").click(function(){
+    	$("#starred").hide();
+        $("#settings").show("fast");
+
+    	$("#settingsToggle").addClass('active');
+    	$("#starredToggle").removeClass('active');
+
+    	$("#starredToggle").addClass('notActive');
+    	$("#settingsToggle").removeClass('notActive');
+    });
+
+	$('.btn-toggle').click(function() {
+    $(this).find('.btn').toggleClass('active');  
+    
+    if ($(this).find('.btn-primary').size()>0) {
+    	$(this).find('.btn').toggleClass('btn-primary');
+    }
+});</script></div>
