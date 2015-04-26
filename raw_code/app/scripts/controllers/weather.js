@@ -121,14 +121,26 @@ angular.module('iat381FinalProjectCheeasonApp')
 
         // If it is a tornado
         case "0":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is a tropical storm
         case "1":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If if is a hurricane
         case "2":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is a thunderstorm
@@ -139,6 +151,10 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "39":
         case "45":
         case "47":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is raining
@@ -152,6 +168,7 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "35":
         case "40":
           document.getElementById('dynamicBackground').style.background="#B8B8B8";
+          document.getElementById("clouds").style.visibility="hidden";
           document.getElementById("rain").style.visibility="visible";
           document.getElementById("snow").style.visibility="hidden";
           foggy(.02);
@@ -170,6 +187,7 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "43":
         case "46":
           document.getElementById('dynamicBackground').style.background="#F0F0F0";
+          document.getElementById("clouds").style.visibility="hidden";
           document.getElementById("rain").style.visibility="hidden";
           document.getElementById("snow").style.visibility="visible";
           foggy(.02);
@@ -177,16 +195,27 @@ angular.module('iat381FinalProjectCheeasonApp')
 
         // If it is dusty
         case "19":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is foggy
         case "20":
         case "21":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
           foggy(.04);
           break;
 
         // If it is smokey
         case "19":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is windy
@@ -194,10 +223,19 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "24":
         case "43":
         case "46":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is cold
         case "25":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
+          break;
 
         // If it is clouudy
         case "26":
@@ -207,6 +245,9 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "30":
         case "44":
           document.getElementById("clouds").style.visibility="visible";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If it is clear
@@ -215,12 +256,18 @@ angular.module('iat381FinalProjectCheeasonApp')
         case "33":
         case "34":
         case "36":
+          document.getElementById("clouds").style.visibility="hidden";
+          document.getElementById("rain").style.visibility="hidden";
+          document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
 
         // If condition is not available
         default:
+          document.getElementById("clouds").style.visibility="hidden";
           document.getElementById("rain").style.visibility="hidden";
           document.getElementById("snow").style.visibility="hidden";
+          foggy(.02);
           break;
       }
     }); 
